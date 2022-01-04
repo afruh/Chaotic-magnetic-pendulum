@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.ticker as mticker
 import os
-os.chdir('/home/arthur/Documents/Info/IPT/Simulation/')
+os.chdir('/home/arthur/Documents/Info/IPT/Chaotic-magnetic-pendulum/')
 
 from constante import *
 from trajectoire import *

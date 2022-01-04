@@ -3,9 +3,8 @@ from constante import *
 
 def trajectoire1(pos, vit, n, MM):
     """pos et vit deux vecteurs de dimension 2 représentant la position initiale en cm, et la vitesse initale en m/s, n le nombre de points de la simulation"""
-    #TODO remplacer n par une condition d'arrêt
 
-    p = np.zeros((3,n+1)) # vecteur contenant les positions successives
+    p = np.zeros((3,n)) # vecteur contenant les positions successives
     p[0,0]=pos[0] *1e-2# x
     p[1,0]=pos[1] *1e-2# y
     p[2,0]= d + H - np.sqrt(H**2-p[0,0]**2-p[1,0])# z
@@ -15,13 +14,13 @@ def trajectoire1(pos, vit, n, MM):
     # z = d + H *(1-sqrt(1-(x^2+y^2)/H^2))
 
     v= vit # on négliga la vitesse verticale, par rapport aux vitesses selon x et y
-    V=np.zeros((2,n+1))
+    V=np.zeros((2,n))
     V[0,0]=vit[0]
     V[1,0]=vit[1]
 
-    A=np.zeros((2,n+1))
+    A=np.zeros((2,n))
 
-    for k in range (n):
+    for k in range (n-1):
 
         # calcul de l'accélération
         ag = [-g/H * p[0,k], -g/H * p[1,k]]
@@ -55,6 +54,6 @@ def trajectoire1(pos, vit, n, MM):
         p[1, k+1] = p[1, k] + v[1]*dt
         #print(p[0,k+1], p[1,k+1])
         p[2, k+1] = d + H *(1-np.sqrt(1-(p[0,k+1]**2+p[1,k+1]**2)/H**2))
-        #print(p[2,k+1])
 
+    print(len(p[0]))
     return p,V, A
