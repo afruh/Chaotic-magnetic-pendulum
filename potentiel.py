@@ -8,9 +8,9 @@ def h(x,y):
 def Vmag(x,y,MM):
     S=0
     for k in range(len(MM)):
-        S += km*MM[k][2]/((MM[k][0]-x)**2+(MM[k][1]-y)**2+h(x,y)**2)**(3/2)
-    return +S/3
+        S += MM[k][2]/((MM[k][0]-x)**2+(MM[k][1]-y)**2+h(x,y)**2)**(3/2)
+    return +mu0*(moment_magn**2)*S/2/np.pi
 
 def V(x,y,MM):
-    return Vmag(x,y,MM)+h(x,y)*m*g
+    return  Vmag(x,y,MM)+h(x,y)*m*g
 
