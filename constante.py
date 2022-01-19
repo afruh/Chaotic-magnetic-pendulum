@@ -4,8 +4,8 @@ import numpy as np
 m = 4.73e-3/2 # masse de l'aimant en kg
 g = 9.81 # m/s^2
 dt = 0.01 # pas de temps
-H = 0.85 # la longueur du fil en m
-d = 0.01 # hauteur entre aimants fixes et point le plsu bas de l'aimant mobile en m
+H = 0.86 # la longueur du fil en m
+d = 0.015 # hauteur entre aimants fixes et point le plsu bas de l'aimant mobile en m
 
 kf1=0.0440026111242504 # force frottement
 
