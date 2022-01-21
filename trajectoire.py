@@ -6,8 +6,8 @@ def trajectoire1(pos, vit, n, MM):
     """pos et vit deux vecteurs de dimension 2 représentant la position initiale en cm, et la vitesse initale en m/s, n le nombre de points de la simulation"""
 
     p = np.zeros((3,n)) # vecteur contenant les positions successives
-    p[0,0]=pos[0] *1e-2# x
-    p[1,0]=pos[1] *1e-2# y
+    p[0,0]=pos[0] # x
+    p[1,0]=pos[1] # y
     p[2,0]= h(p[0,0],p[1,0])# z
 
 

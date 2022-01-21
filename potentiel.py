@@ -3,7 +3,7 @@ from constante import *
 
 ## Calcul du Potentiel
 def h(x,y):
-    return H+d-(np.sqrt(H**2-x**2-y**2))
+    return d+H*(1-np.sqrt(1-(x**2+y**2)/H**2))
 
 def Vmag(x,y,MM):
     S=0

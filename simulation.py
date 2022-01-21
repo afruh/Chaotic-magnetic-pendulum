@@ -2,11 +2,12 @@ import matplotlib as plm
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.ticker as mticker
+import scipy.integrate
 import os
 os.chdir('/home/arthur/Documents/Info/IPT/Chaotic-magnetic-pendulum/')
 
 from constante import *
-from trajectoire import *
+from trajectoire2 import *
 from potentiel import *
 
 
@@ -14,25 +15,42 @@ from potentiel import *
 
 MM=[[0,0,-1]]
 MM=[]
-for i in range(10):
-    MM.append([6e-2*np.cos(2*np.pi*i/(10)),6e-2*np.sin(2*np.pi*i/(10)),1])
-for i in range(6):
-    MM.append([3.5e-2*np.cos(2*np.pi*i/(6)),3.5e-2*np.sin(2*np.pi*i/(6)),1])
+N_aimant_c=16
+for i in range(N_aimant_c):
+    MM.append([8e-2*np.cos(2*np.pi*i/N_aimant_c),8e-2*np.sin(2*np.pi*i/N_aimant_c),1])
+# N_aimant_c=8
+# for i in range(N_aimant_c):
+#     MM.append([3e-2*np.cos(2*np.pi*i/N_aimant_c),3e-2*np.sin(2*np.pi*i/N_aimant_c),1])
 
 
-n=10000
+n=30000
 
-#p,V,A = trajectoire1([7.01,8.01], [0,0], n)
-p2,V2,A2,Am2,Af2,Ag2 = trajectoire1([6.5,6.5], [-.5,.5], n, MM)
+# initial condition
+r0 = [.1,.1,.7,-.7]
+
+# time points
+t = np.arange(0,dt*n,dt)
+
+# store solution
+x = np.empty_like(t)
+y = np.empty_like(t)
+# record initial conditions
+x[0] = r0[0]
+y[0] = r0[1]
+
+# solve ODE
+r = scipy.integrate.odeint(model, r0, t, args=(MM,),tfirst=True)
+x = r[:,0]
+y = r[:,1]
 
 
 fig,ax=plt.subplots()
 
-Lmax = max(max(np.abs(p2[0,:])),max(np.abs(p2[1,:])))
+Lmax = max(max(np.abs(x[:])),max(np.abs(y[:])))
 Lmax += .01
-x = np.linspace(-Lmax, Lmax, 1000)
-y = np.linspace(-Lmax, Lmax, 1000)
-X, Y = np.meshgrid(x, y)
+X = np.linspace(-Lmax, Lmax, 1000)
+Y = np.linspace(-Lmax, Lmax, 1000)
+X, Y = np.meshgrid(X, Y)
 Z=V(X,Y,MM)
 
 
@@ -45,28 +63,20 @@ cbar.ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
  #cbar.ax.set_yticklabels([f'{i:.1e}' for i in cbar.get_ticks()])
 cbar.set_label('énergie potentielle (J)', rotation=90)
 
-ax.plot(p2[0,:], p2[1,:],label=f'Les %s premières secondes'.format(len(p2)*dt),linewidth=.5,color='red')
-# ax.plot(p2[0,:2000], p2[1,:2000],label='Les 20 premières secondes',linewidth=.5,color='red')
-# ax.plot(p2[0,10000:12000], p2[1,10000:12000],label='entre 100 et 120 secondes',linewidth=.5,color='orange')
-# ax.plot(p2[0,25000:], p2[1,25000:],label='Après 280 secondes',linewidth=.5,color='grey')
-# ax.set_aspect('equal', adjustable='box')
-#plt.plot(p[0,:], p[1,:])
+ax.plot(x, y,linewidth=.7,color='orange')
+
 for Mk in MM :
-    plt.scatter(Mk[0], Mk[1],zorder=3,color='r')
+    plt.scatter(Mk[0], Mk[1],alpha=.2,color='r',)
 
 plt.legend()
 
-
-Ep=V(p2[0,:],p2[1,:],MM)
-Ec=1/2*m*(V2[1,:]**2+V2[0,:]**2)
-
+x=np.arange(-.2,.2,.001)
+Z=V(x,0,MM)
 plt.figure()
-plt.plot(Ep,label='Ep')
-plt.plot(Ec,label='Ec')
-plt.legend()
+plt.plot(x,Z)
+x=np.arange(-.2,.2,.001)
+y=np.arange(-.2,.2,.001)
+Z=V(x,y,MM)
 plt.figure()
-plt.plot(Af2,label='Af')
-plt.plot(Am2,label='Am')
-plt.plot(Ag2,label='Ag')
-plt.legend()
+plt.plot(x,Z)
 plt.show()
