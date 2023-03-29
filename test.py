@@ -11,6 +11,7 @@ from trajectoire import *
 from potentiel import *
 
 
+
 # position des aimants fixes en m, (z = 0) et sens de la force (-1 attraction ou +1 répuslsion)
 
 MM=[[0,0,-1]]
